@@ -7,8 +7,8 @@ type Props = {
 
 function useSwapiCharacters({ page }: Props) {
     const [characters, setCharacters] = useState<ISwapiCharaters[]>([])
-    const [nextPage, setNextPage] = useState("")
-    const [isLoading, setIsLoading] = useState(true)
+    const [count, setCount] = useState<number>(0)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<Error | null>(null)
 
 
@@ -17,7 +17,7 @@ function useSwapiCharacters({ page }: Props) {
         .then((c) => c.json())
         .then((data) => {
             setCharacters(data.results)
-            setNextPage(data.next)
+            setCount(data.count)
         })
         .catch((err) => {
             setError(err)
@@ -27,7 +27,7 @@ function useSwapiCharacters({ page }: Props) {
         })
     }, [page])
 
-    return { characters, isLoading, error, nextPage }
+    return { characters, isLoading, error, count }
 }
 
 export default useSwapiCharacters

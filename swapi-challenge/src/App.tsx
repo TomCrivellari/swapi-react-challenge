@@ -5,9 +5,10 @@ import type { ISwapiCharaters } from './types/ISwapiCharacters'
 
 function App() {
   const [page, setPage] = useState(1)
-  const { characters, isLoading, error, nextPage } = useSwapiCharacters({ page: page })
+  const { characters, isLoading, error, count } = useSwapiCharacters({ page: page })
   const [filter, setFilter] = useState("")
-  const paginas = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  const totalPages = Math.ceil(count / 10)
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   const filteredCharacters: ISwapiCharaters[] = characters.filter(c =>
     c.name.toLowerCase().includes(filter.toLowerCase())
@@ -18,13 +19,13 @@ function App() {
   }
 
   const handleNextPage = () => {
-    if (nextPage == null) return
-    setPage(page+1)
+    if (page == totalPages) return
+    setPage(prev => prev + 1)
   }
 
   const handleBackPage = () => {
     if (page == 1) return
-    setPage(page-1)
+    setPage(prev => prev - 1)
   }
 
   const handleChangePage = (page: number) => {
@@ -57,7 +58,7 @@ function App() {
         <div>
           <button onClick={handleBackPage}>Voltar</button>
           <div>
-            {paginas.map((n) => {
+            {pages.map((n) => {
               return <button onClick={() => {handleChangePage(n)}}>{n}</button>
             })}
           </div>
