@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
-import type { ICharaters } from '../../types/ISwapiCharacters'
+import type { ISwapiCharaters } from '../../types/ISwapiCharacters'
 
 type Props = {
     page: number;
 }
 
 function useSwapiCharacters({ page }: Props) {
-    const [characters, setCharacters] = useState<ICharaters[]>([])
+    const [characters, setCharacters] = useState<ISwapiCharaters[]>([])
+    const [nextPage, setNextPage] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<Error | null>(null)
 
@@ -16,6 +17,7 @@ function useSwapiCharacters({ page }: Props) {
         .then((c) => c.json())
         .then((data) => {
             setCharacters(data.results)
+            setNextPage(data.next)
         })
         .catch((err) => {
             setError(err)
@@ -23,9 +25,9 @@ function useSwapiCharacters({ page }: Props) {
         .finally(() => {
             setIsLoading(false)
         })
-    }, [])
+    }, [page])
 
-    return { characters, isLoading, error }
+    return { characters, isLoading, error, nextPage }
 }
 
 export default useSwapiCharacters
