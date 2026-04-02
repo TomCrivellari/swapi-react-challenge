@@ -45,21 +45,34 @@ function App() {
           {isLoading && <p>Carregando...</p>}
           {error && <p>Erro ao carregar os dados</p>}
           {filteredCharacters.length === 0 && (<p>Nenhum personagem encontrado nesta pagina</p>)}
-          {filteredCharacters.map((character) => {
-            return <div key={character.id}>
-              <ul>
-                <h2>{character.name} ({character.height})
-                  <span> de {character.mass} {character.gender != "n/a"? character.gender : "Indefinido"}</span>
-                </h2>
-              </ul>
-            </div>
-          })}
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Altura</th>
+                <th>Massa</th>
+                <th>Gênero</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredCharacters.map((character, index) => {
+                return <tr key={index}>
+                  <td>{character.name}</td>
+                  <td>{character.height == "unknown" || character.height == "none"? "Desconhecido": character.height}</td>
+                  <td>{character.mass == "unknown" || character.mass == "none"? "Desconhecido": character.mass}</td>
+                  <td>{character.gender == "n/a"? "Indefinido": character.gender}</td>
+                </tr>
+              })}
+            </tbody>
+            
+          </table>
+          
         </div>
         <div>
           <button onClick={handleBackPage}>Voltar</button>
           <div>
             {pages.map((n) => {
-              return <button onClick={() => {handleChangePage(n)}}>{n}</button>
+              return <button key={n} onClick={() => {handleChangePage(n)}}>{n}</button>
             })}
           </div>
           <button onClick={handleNextPage}>Proximo</button>
