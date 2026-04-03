@@ -114,6 +114,12 @@ button:hover{
     border-radius: 5px;
 }
 
+.page-info {
+    font-size: 14px;
+    color: #666;
+    margin-left: 10px;
+}
+
 @media (max-width: 768px) {
     .body {
         width: 95vw;

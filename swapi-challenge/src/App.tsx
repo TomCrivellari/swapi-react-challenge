@@ -83,11 +83,13 @@ function App() {
                   </tr>
                 })}
               </tbody>
-              
+              <p className="page-info">Página {page} de {totalPages}</p>
             </table>
           }
           
+          
         </section>
+        
         <section className='pagination'>
           <button className={page === 1 ? "hidden" : ""} onClick={handleBackPage}>Voltar</button>
           <section className='pages'>
