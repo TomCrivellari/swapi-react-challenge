@@ -46,11 +46,9 @@ npm run dev
 
 Demonstrar domínio em:
 
-a. Construa uma interface que liste os personagens;
-b. A tela, além da grid, deverá ter um filtro que permita filtrar pelo nome dos
-mesmos;
-c. O grid deverá ser paginado, exibindo 10 registros por vez, e botões de navegação
-entre os mesmos;
+* Construa uma interface que liste os personagens;
+* A tela, além da grid, deverá ter um filtro que permita filtrar pelo nome dos mesmos;
+* O grid deverá ser paginado, exibindo 10 registros por vez, e botões de navegação entre os mesmos;
 
 -----------------------------------
 
