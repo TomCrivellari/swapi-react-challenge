@@ -34,50 +34,55 @@ function App() {
 
 
   return(
-    <div>
-      <h1>Lista de Personagens</h1>
-      <div>
-        <div>
+    <div className="container">
+      <header className='header'>
+        <h1>Lista de Personagens</h1>
+      </header>
+      <section className='body'>
+        <section className='filter'>
           <input type="text" placeholder='Filtrar pelo nome' value={filter} onChange={(e) => {setFilter(e.target.value)}}/>
-          <button onClick={handleRemoveFilter}>Remover filtro</button>
-        </div>
-        <div>
+          {filter != "" && <button onClick={handleRemoveFilter}>Remover filtro</button>}
+        </section>
+        <section className='list'>
           {isLoading && <p>Carregando...</p>}
           {error && <p>Erro ao carregar os dados</p>}
-          {filteredCharacters.length === 0 && (<p>Nenhum personagem encontrado nesta pagina</p>)}
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Altura</th>
-                <th>Massa</th>
-                <th>Gênero</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCharacters.map((character, index) => {
-                return <tr key={index}>
-                  <td>{character.name}</td>
-                  <td>{character.height == "unknown" || character.height == "none"? "Desconhecido": character.height}</td>
-                  <td>{character.mass == "unknown" || character.mass == "none"? "Desconhecido": character.mass}</td>
-                  <td>{character.gender == "n/a"? "Indefinido": character.gender}</td>
+          {filteredCharacters.length === 0 && !isLoading && (<p>Nenhum personagem encontrado nesta pagina</p>)}
+          {filteredCharacters.length != 0 &&
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Altura</th>
+                  <th>Massa</th>
+                  <th>Gênero</th>
                 </tr>
-              })}
-            </tbody>
-            
-          </table>
+              </thead>
+              <tbody>
+                {filteredCharacters.map((character, index) => {
+                  return <tr key={index}>
+                    <td>{character.name}</td>
+                    <td>{character.height == "unknown" || character.height == "none"? "Desconhecido": (parseInt(character.height)/100) + " metros"}</td>
+                    <td>{character.mass == "unknown" || character.mass == "none"? "Desconhecido": character.mass + " kg"} </td>
+                    <td>{character.gender == "n/a" || character.gender == "none"? "Indefinido": 
+                    (character.gender == "male"? "Masculino" : "Feminino")}</td>
+                  </tr>
+                })}
+              </tbody>
+              
+            </table>
+          }
           
-        </div>
-        <div>
-          <button onClick={handleBackPage}>Voltar</button>
-          <div>
+        </section>
+        <section className='pagination'>
+          <button className={page === 1 ? "hidden" : ""} onClick={handleBackPage}>Voltar</button>
+          <section className='pages'>
             {pages.map((n) => {
-              return <button key={n} onClick={() => {handleChangePage(n)}}>{n}</button>
+              return <button className={page === n ? "active" : "deactivate"} key={n} onClick={() => {handleChangePage(n)}}>{n}</button>
             })}
-          </div>
-          <button onClick={handleNextPage}>Proximo</button>
-        </div>
-      </div>
+          </section>
+          <button className={page === totalPages ? "hidden" : ""} onClick={handleNextPage}>Proximo</button>
+        </section>
+      </section>
     </div>
   )
 }
