@@ -9,6 +9,7 @@ function App() {
   const [filter, setFilter] = useState("")
   const totalPages = Math.ceil(count / 10)
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+  const visiblePages = pages.filter((p) => p >= page - 2 && p <= page + 2)
 
   const filteredCharacters: ISwapiCharaters[] = characters.filter(c =>
     c.name.toLowerCase().includes(filter.toLowerCase())
@@ -19,12 +20,12 @@ function App() {
   }
 
   const handleNextPage = () => {
-    if (page == totalPages) return
+    if (page === totalPages) return
     setPage(prev => prev + 1)
   }
 
   const handleBackPage = () => {
-    if (page == 1) return
+    if (page === 1) return
     setPage(prev => prev - 1)
   }
 
@@ -32,6 +33,21 @@ function App() {
     setPage(page)
   }
 
+  const formatHeight = (height: string) => {
+    if (height === "unknown" || height === "none") return "Desconhecido"
+    return `${parseInt(height) / 100} metros`
+  }
+
+  const formatMass = (mass: string) => {
+    if (mass === "unknown" || mass === "none") return "Desconhecido"
+    return `${mass} kg`
+  }
+  const formatGender = (gender: string) => {
+    if (gender === "n/a" || gender === "none") return "Indefinido"
+    if (gender === "male") return "Masculino"
+    else return "Feminino"
+    
+  }
 
   return(
     <div className="container">
@@ -47,7 +63,7 @@ function App() {
           {isLoading && <p>Carregando...</p>}
           {error && <p>Erro ao carregar os dados</p>}
           {filteredCharacters.length === 0 && !isLoading && (<p>Nenhum personagem encontrado nesta pagina</p>)}
-          {filteredCharacters.length != 0 &&
+          {filteredCharacters.length != 0 && !isLoading &&
             <table>
               <thead>
                 <tr>
@@ -61,10 +77,9 @@ function App() {
                 {filteredCharacters.map((character, index) => {
                   return <tr key={index}>
                     <td>{character.name}</td>
-                    <td>{character.height == "unknown" || character.height == "none"? "Desconhecido": (parseInt(character.height)/100) + " metros"}</td>
-                    <td>{character.mass == "unknown" || character.mass == "none"? "Desconhecido": character.mass + " kg"} </td>
-                    <td>{character.gender == "n/a" || character.gender == "none"? "Indefinido": 
-                    (character.gender == "male"? "Masculino" : "Feminino")}</td>
+                    <td>{formatHeight(character.height)}</td>
+                    <td>{formatMass(character.mass)} </td>
+                    <td>{formatGender(character.gender)}</td>
                   </tr>
                 })}
               </tbody>
@@ -76,7 +91,7 @@ function App() {
         <section className='pagination'>
           <button className={page === 1 ? "hidden" : ""} onClick={handleBackPage}>Voltar</button>
           <section className='pages'>
-            {pages.map((n) => {
+            {visiblePages.map((n) => {
               return <button className={page === n ? "active" : "deactivate"} key={n} onClick={() => {handleChangePage(n)}}>{n}</button>
             })}
           </section>

@@ -13,6 +13,7 @@ function useSwapiCharacters({ page }: Props) {
 
 
     useEffect(() => {
+    setIsLoading(true)
     fetch(`https://swapi.py4e.com/api/people/?page=${page}`)
         .then((c) => c.json())
         .then((data) => {

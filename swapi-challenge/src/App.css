@@ -74,6 +74,7 @@ button:hover{
     display: flex;
     align-items: center;
     padding: 20px;
+    margin-top: auto;
 }
 
 .pages {
